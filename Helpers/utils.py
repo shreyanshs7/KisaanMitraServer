@@ -14,7 +14,7 @@ def generate_exception_body(message, status_code):
 def assert_check(condition, message = None, status_code = None):
     if condition is False:
         exception = generate_exception_body(message, status_code)
-        return Exception(exception)
+        raise Exception(exception)
 
 def assert_true(condition, message = "Forbidden", status_code = 403):
     assert_check(condition, message, status_code)

@@ -19,6 +19,7 @@ def news_feed(request):
     response = requests.request("GET", url, params=querystring)
     if response.status_code is 200:
         response = response.json()
+        response['success'] = True
         return respond(response)
     response = {}
     response['success'] = False

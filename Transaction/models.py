@@ -24,3 +24,18 @@ class CartDetail(models.Model):
 	quantity = models.IntegerField()
 	created_at = models.DateTimeField(auto_now=False, auto_now_add=True)
 	updated_at = models.DateTimeField(auto_now=True, auto_now_add=False)
+
+
+class Rent(models.Model):
+	product = models.ForeignKey(Product, on_delete=models.CASCADE)
+	user = models.ForeignKey(UserDetail, on_delete=models.CASCADE)
+	price = models.FloatField()
+	quantity = models.FloatField()
+	rent_completed = models.BooleanField(default=False)
+	duration_start = models.DateTimeField()
+	duration_end = models.DateTimeField()
+	created_at = models.DateTimeField(auto_now=False, auto_now_add=True)
+	updated_at = models.DateTimeField(auto_now=True, auto_now_add=False)
+
+	def __str__(self):
+	 return self.product.name
