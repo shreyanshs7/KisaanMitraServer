@@ -7,6 +7,9 @@ from Authentication.models import Merchant, UserDetail
 # 	return ("product_%s/%s")%(str(instance.id),str(filename))
 
 class Product(models.Model):
+	class Meta:
+		verbose_name="Product"
+		verbose_name_plural="Products"
 	PCS = "PCS"
 	KG = "KG"
 	LTR = "LTR"
@@ -61,6 +64,9 @@ class Product(models.Model):
 		return self.name
 
 class Crop(models.Model):
+	class Meta:
+		verbose_name="Crop"
+		verbose_name_plural="Crops"
 	VEGETABLE = "VEGETABLE"
 	FRUIT = "FRUIT"
 	CEREAL = "CEREAL"
@@ -87,6 +93,9 @@ class Crop(models.Model):
 	 return str(self.crop_type)
 
 class FarmerCrop(models.Model):
+	class Meta:
+		verbose_name="FarmerCrop"
+		verbose_name_plural="FarmerCrops"
 	user = models.ForeignKey(UserDetail, on_delete=models.CASCADE)
 	crop = models.ForeignKey(Crop, on_delete=models.CASCADE)
 	created_at = models.DateTimeField(auto_now=False, auto_now_add=True)

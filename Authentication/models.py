@@ -46,6 +46,9 @@ def save_user_profile(sender, instance, **kwargs):
     instance.userdetail.save()
 
 class Merchant(models.Model):
+	class Meta:
+		verbose_name="Merchant"
+		verbose_name_plural="Merchants"
 	user = models.ForeignKey(UserDetail, on_delete=models.CASCADE)
 	name = models.CharField(max_length = 120)
 	email = models.EmailField(max_length = 254)
@@ -58,6 +61,9 @@ class Merchant(models.Model):
 	 return self.name
 
 class FcmModel(models.Model):
+	class Meta:
+		verbose_name="FcmModel"
+		verbose_name_plural="FcmModels"
 	user = models.ForeignKey(UserDetail, on_delete = models.CASCADE)
 	token = models.CharField(max_length = 500)
 	contact = models.CharField(max_length = 10)
