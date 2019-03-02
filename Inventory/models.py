@@ -58,7 +58,7 @@ class Product(models.Model):
 	updated_at = models.DateTimeField(auto_now=True, auto_now_add=False)
 
 	def __str__(self):
-	 return self.name
+		return self.name
 
 class Crop(models.Model):
 	VEGETABLE = "VEGETABLE"
@@ -83,7 +83,7 @@ class Crop(models.Model):
 	updated_at = models.DateTimeField(auto_now=True, auto_now_add=False)
 
 	def __str__(self):
-	 return self.crop_type
+	 return str(self.crop_type)
 
 class FarmerCrop(models.Model):
 	user = models.ForeignKey(UserDetail, on_delete=models.CASCADE)
