@@ -4,6 +4,9 @@ from Inventory.models import Product
 
 # Create your models here.
 class Cart(models.Model):
+	class Meta:
+		verbose_name="Cart"
+		verbose_name_plural="Carts"
 	INCART = "INCART"
 	PAID = "PAID"
 	OTHER = "OTHER"
@@ -19,6 +22,9 @@ class Cart(models.Model):
 	updated_at = models.DateTimeField(auto_now=True, auto_now_add=False)
 
 class CartDetail(models.Model):
+	class Meta:
+		verbose_name="CartDetail"
+		verbose_name_plural="CartDetails"
 	cart = models.ForeignKey(Cart, on_delete = models.CASCADE)
 	product = models.ForeignKey(Product, on_delete=models.CASCADE)
 	quantity = models.IntegerField()
@@ -27,6 +33,9 @@ class CartDetail(models.Model):
 
 
 class Rent(models.Model):
+	class Meta:
+		verbose_name="Rent"
+		verbose_name_plural="Rents"
 	product = models.ForeignKey(Product, on_delete=models.CASCADE)
 	user = models.ForeignKey(UserDetail, on_delete=models.CASCADE)
 	price = models.FloatField()
