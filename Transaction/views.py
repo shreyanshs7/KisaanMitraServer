@@ -61,3 +61,28 @@ def rent_release(request):
     response['success'] = True
     response['message'] = "Rented product duration completed"
     return respond(response)
+
+@token_required
+@csrf_exempt
+def get_all_rent(request):
+    token = request.META.get('token')
+    user = get_user(token)
+    user_detail_obj = get_model_json(UserDetail, user = user)
+    assert_found(user_detail_obj, "No user detail object found")
+    all_rent_obj = Rent.objects.filter(user = user_detail_obj)
+    all_rent_list = []
+    for obj in all_rent_obj:
+        temp =  {}
+        temp['product_name'] = obj.product.product.name
+        temp['rent_id'] = obj.id
+        temp['price'] = obj.price
+        temp['quantity'] = obj.quantity
+        temp['status'] = obj.rent_completed
+        temp['duration_start'] = obj.duration_start
+        temp['duration_end'] = obj.duration_end
+        all_rent_list.append(temp)
+    response = {}
+    response['success'] = True
+    response['message'] = "Rent list"
+    response['rent_list'] = all_rent_list
+    return respond(response)

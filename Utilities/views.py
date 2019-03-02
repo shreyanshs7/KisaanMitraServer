@@ -8,11 +8,11 @@ from django.views.decorators.csrf import csrf_exempt
 from Helpers.tokens import token_required
 
 # Create your views here.
-@token_required
-@require_http_methods(['POST'])
+# @token_required
+@require_http_methods(['GET'])
 @csrf_exempt
 def news_feed(request):
-    token = request.META.get("token")
+    # token = request.META.get("token")
     query = request.GET.get('query')
     url = "https://newsapi.org/v2/everything"
     querystring = { "q":query,"sources":"the-hindu","apiKey": settings.NEWS_API_KEY }

@@ -18,8 +18,9 @@ from django.urls import path
 from django.conf import settings
 from django.conf.urls.static import static
 from Authentication.views import login, register, register_merchant
-from Inventory.views import upload_product
+from Inventory.views import upload_product, get_all_products, update_product
 from Utilities.views import news_feed
+from Transaction.views import get_all_rent, rent, rent_release
 
 urlpatterns = [
     path('admin/', admin.site.urls),
@@ -27,7 +28,12 @@ urlpatterns = [
     path('api/register', register, name = 'register'),
     path('api/register/merchant', register_merchant, name = 'register_merchant'),
     path('api/upload/product', upload_product, name = 'upload_product'),
-    path('api/news', news_feed, name = 'news_feed')
+    path('api/news', news_feed, name = 'news_feed'),
+    path('api/rent/create', rent, name = 'rent_create'),
+    path('api/rent/release', rent_release, name = 'rent_release'),
+    path('api/rent/list', get_all_rent, name = 'all_rent_list'),
+    path('api/product/list', get_all_products, name = 'all_products'),
+    path('api/product/update', update_product, name = 'update_product')
 ]
 if settings.DEBUG:
     urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
