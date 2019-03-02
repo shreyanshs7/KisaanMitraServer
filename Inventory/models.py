@@ -1,0 +1,78 @@
+from django.db import models
+from Authentication.models import Merchant, UserDetail
+
+# Create your models here.
+
+# def product_image_path(instance, filename):
+# 	return ("product_%s/%s")%(str(instance.id),str(filename))
+
+class Product(models.Model):
+	PCS = "PCS"
+	KG = "KG"
+	LTR = "LTR"
+	OTHER = "OTHER"
+	QUANTITY_TYPE = (
+		(PCS, "PCS"),
+		(KG, "KG"),
+		(LTR, "LTR"),
+		(OTHER, "OTHER")
+	)
+
+	SEED = "SEED"
+	MANURE = "MANURE"
+	TRACTOR = "TRACTOR"
+	EQUIPMENT = "EQUIPMENT"
+	OTHER = "OTHER"
+	PRODUCT_TYPE = (
+		(SEED, "SEED"),
+		(MANURE, "MANURE"),
+		(TRACTOR, "TRACTOR"),
+		(EQUIPMENT, "EQUIPMENT"),
+		(OTHER, "OTHER")
+	)
+	merchant = models.ForeignKey(Merchant, on_delete=models.CASCADE)
+	name = models.CharField(max_length = 120)
+	product_type = models.CharField(max_length = 120, choices = PRODUCT_TYPE)
+	price = models.IntegerField()
+	quantity = models.FloatField()
+	quantity_type = models.CharField(max_length = 5, choices = QUANTITY_TYPE)
+	image = models.FileField(upload_to="static/products/")
+	created_at = models.DateTimeField(auto_now=False, auto_now_add=True)
+	updated_at = models.DateTimeField(auto_now=True, auto_now_add=False)
+
+	def __str__(self):
+	 return self.name
+
+class Crop(models.Model):
+	VEGETABLE = "VEGETABLE"
+	FRUIT = "FRUIT"
+	CEREAL = "CEREAL"
+	CROP_CHOICES = (
+		(VEGETABLE, "VEGETABLE"),
+		(FRUIT, "FRUIT"),
+		(CEREAL, "CEREAL")
+	)
+
+	RABI = "RABI"
+	KHARIF = "KHARIF"
+
+	SEASON_CHOICES = (
+		(RABI, "RABI"),
+		(KHARIF, KHARIF)
+	)
+	crop_type = models.CharField(max_length = 120, choices = CROP_CHOICES)
+	season = models.CharField(max_length = 120, choices = SEASON_CHOICES)
+	created_at = models.DateTimeField(auto_now=False, auto_now_add=True)
+	updated_at = models.DateTimeField(auto_now=True, auto_now_add=False)
+
+	def __str__(self):
+	 return self.crop_type
+
+class FarmerCrop(models.Model):
+	user = models.ForeignKey(UserDetail, on_delete=models.CASCADE)
+	crop = models.ForeignKey(Crop, on_delete=models.CASCADE)
+	created_at = models.DateTimeField(auto_now=False, auto_now_add=True)
+	updated_at = models.DateTimeField(auto_now=True, auto_now_add=False)
+
+	def __str__(self):
+	 return self.user.full_name
