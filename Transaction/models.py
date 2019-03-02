@@ -18,7 +18,7 @@ class Cart(models.Model):
 	created_at = models.DateTimeField(auto_now=False, auto_now_add=True)
 	updated_at = models.DateTimeField(auto_now=True, auto_now_add=False)
 
-class CartDetail(models.CharField):
+class CartDetail(models.Model):
 	cart = models.ForeignKey(Cart, on_delete = models.CASCADE)
 	product = models.ForeignKey(Product, on_delete=models.CASCADE)
 	quantity = models.IntegerField()
