@@ -58,6 +58,7 @@ def get_all_products(request):
         temp['product_type'] = obj.product_type
         temp['sell_price'] = obj.sell_price
         temp['rent_price'] = obj.rent_price
+        temp['sell_type'] = obj.sell_type
         temp['quantity'] = obj.quantity
         temp['period'] = obj.period
         temp['quantity_type'] = obj.quantity_type
@@ -98,6 +99,7 @@ def update_product(request):
 @require_http_methods(['POST'])
 @csrf_exempt
 def update_crop(request):
+    response = {}
     token = request.META.get('HTTP_TOKEN')
     user = get_user(token)
     data = json.loads(request.body)
@@ -106,13 +108,68 @@ def update_crop(request):
     assert_found(crop_obj, "No crop object found")
     user_detail_obj = get_or_none(UserDetail, user = user)
     assert_found(user_detail_obj, "No user detail object found")
-    farmer_crop_obj = FarmerCrop.objects.get(user = user_detail_obj, crop = crop_obj)
-    farmer_crop_obj.crop_type = data['crop_type']
-    farmer_crop_obj.season = data['season']
-    farmer_crop_obj.name = data['name']
-    farmer_crop_obj.save()
+    try:
+        farmer_crop = FarmerCrop.objects.get(user = user_detail_obj, crop = crop_obj)
+    except FarmerCrop.DoesNotExist:
+        farmer_crop_obj = FarmerCrop.objects.create(user = user_detail_obj, crop = crop_obj)    
+        farmer_crop_obj.save()
+        response['success'] = True
+        response['message'] = "Crop added successfully"
+        response['detail'] = get_model_json(farmer_crop_obj)
+        return respond(response)
+    response['success'] = False
+    response['message'] = "You've already added this crop"
+    return respond(response)
+
+@csrf_exempt
+def get_all_crops(request):
+    crop_obj = Crop.objects.all()
+    crop_list = []
+    for obj in crop_obj:
+        temp = {}
+        temp['crop_id'] = obj.id
+        temp['crop_type'] = obj.crop_type
+        temp['season'] = obj.season
+        temp['name'] = obj.name
+        crop_list.append(temp)
     response = {}
     response['success'] = True
-    response['message'] = "Crop detail updated successfully"
-    response['detail'] = get_model_json(farmer_crop_obj)
+    response['crop_list'] = crop_list
+    response['message'] = "Crops list"
+    return respond(response)
+
+@token_required
+@csrf_exempt
+@require_http_methods(['GET'])
+def get_crops_by_user(request):
+    token = request.META.get("HTTP_TOKEN")
+    user = get_user(user)
+    user_detail_obj = user.userdetail
+    farmer_crop_obj = get_or_none(FarmerCrop, user = user_detail_obj)
+    assert_found(farmer_crop_obj, "No farmer crop object found")
+    farmer_crop_list = []
+    for obj in farmer_crop_obj:
+        temp = {}
+        temp['crop_name'] = obj.crop.name
+        temp['crop_type'] = obj.crop.crop_type
+        temp['season'] = obj.crop.season
+        farmer_crop_list.append(temp)
+    response = {}
+    response['success'] = True
+    response['farmer_crop_list'] = farmer_crop_list
+    return respond(response)
+
+@require_http_methods(['GET'])
+@token_required
+@csrf_exempt
+def delete_crop_user(request):
+    token = request.META.get('HTTP_TOKEN')
+    user = get_user(token)
+    user_detail_obj = user.userdetail
+    farmer_crop_obj = get_or_none(FarmerCrop, user = user_detail_obj)
+    assert_found(farmer_crop_obj, "No Farmer crop object found")
+    farmer_crop_obj.delete()
+    response = {}
+    response['success'] = True
+    response['message'] = "Crop deleted successfully"
     return respond(response)
