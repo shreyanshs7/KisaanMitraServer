@@ -41,8 +41,9 @@ INSTALLED_APPS = [
     'Authentication',
     'Inventory',
     'Transaction',
-    'Utilities'
-    
+    'Utilities',
+    'Advisory',
+    'froala_editor',
 ]
 
 MIDDLEWARE = [

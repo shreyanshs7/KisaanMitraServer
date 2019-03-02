@@ -51,11 +51,17 @@ def register(request):
     user_obj = User.objects.create(username = username, password = password)
     user_obj.save()
 
-    user_detail_obj = UserDetail.objects.create(user = user_obj, first_name = first_name, last_name = last_name, user_type = user_type, contact = contact, email = email, latitude = latitude, longitude = longitude)
-    user_detail_obj.save()
+    user_obj.userdetail.first_name = first_name
+    user_obj.userdetail.last_name = last_name
+    user_obj.userdetail.user_type = user_type
+    user_obj.userdetail.contact = contact
+    user_obj.userdetail.email = email
+    user_obj.userdetail.latitude = latitude
+    user_obj.userdetail.longitude = longitude
+    user_obj.userdetail.save()
 
     #Fcm register
-    device = FcmModel.objects.create(user = user_detail_obj, token = fcm_token, contact = contact)
+    device = FcmModel.objects.create(user = user_obj.userdetail, token = fcm_token, contact = contact)
     device.save()
 
     response['success'] = True

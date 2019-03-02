@@ -75,7 +75,7 @@ class Crop(models.Model):
 
 	SEASON_CHOICES = (
 		(RABI, "RABI"),
-		(KHARIF, KHARIF)
+		(KHARIF, "KHARIF")
 	)
 	crop_type = models.CharField(max_length = 120, choices = CROP_CHOICES)
 	season = models.CharField(max_length = 120, choices = SEASON_CHOICES)
