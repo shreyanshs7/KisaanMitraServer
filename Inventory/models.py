@@ -30,11 +30,28 @@ class Product(models.Model):
 		(EQUIPMENT, "EQUIPMENT"),
 		(OTHER, "OTHER")
 	)
+	LESS_THAN_ONE_YEAR = "LESS_THAN_ONE_YEAR"
+	ONE_TO_FIVE_YEAR = "ONE_TO_FIVE_YEAR"
+	GREATER_THAN_FIVE = "GREATER_THAN_FIVE" 
+	PERIOD_CHOICES = (
+		(LESS_THAN_ONE_YEAR, "LESS_THAN_ONE_YEAR"),
+		(ONE_TO_FIVE_YEAR, "ONE_TO_FIVE_YEAR"),
+		(GREATER_THAN_FIVE, "GREATER_THAN_FIVE")
+	)
+	BUY = "BUY"
+	RENT = "RENT"
+	SELL_TYPE = (
+		(BUY, "BUY"),
+		(RENT, "RENT")
+	)
 	merchant = models.ForeignKey(Merchant, on_delete=models.CASCADE)
 	name = models.CharField(max_length = 120)
 	product_type = models.CharField(max_length = 120, choices = PRODUCT_TYPE)
-	price = models.IntegerField()
+	sell_price = models.FloatField(default=100)
+	rent_price = models.FloatField(default=100)
+	sell_type = models.CharField(max_length = 12, choices = SELL_TYPE, default=BUY)
 	quantity = models.FloatField()
+	period = models.CharField(max_length = 120, choices = PERIOD_CHOICES, default = LESS_THAN_ONE_YEAR)
 	quantity_type = models.CharField(max_length = 5, choices = QUANTITY_TYPE)
 	image = models.FileField(upload_to="static/products/")
 	created_at = models.DateTimeField(auto_now=False, auto_now_add=True)
