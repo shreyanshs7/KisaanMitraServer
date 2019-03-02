@@ -21,6 +21,7 @@ from Authentication.views import login, register, register_merchant
 from Inventory.views import upload_product, get_all_products, update_product
 from Utilities.views import news_feed
 from Transaction.views import get_all_rent, rent, rent_release
+from Advisory.views import get_all_advices
 
 urlpatterns = [
     path('admin/', admin.site.urls),
@@ -33,7 +34,8 @@ urlpatterns = [
     path('api/rent/release', rent_release, name = 'rent_release'),
     path('api/rent/list', get_all_rent, name = 'all_rent_list'),
     path('api/product/list', get_all_products, name = 'all_products'),
-    path('api/product/update', update_product, name = 'update_product')
+    path('api/product/update', update_product, name = 'update_product'),
+    path('api/advices/all', get_all_advices, name = 'advices')
 ]
 if settings.DEBUG:
     urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

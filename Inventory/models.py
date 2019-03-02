@@ -20,13 +20,13 @@ class Product(models.Model):
 
 	SEED = "SEED"
 	MANURE = "MANURE"
-	TRACTOR = "TRACTOR"
+	VEHICLE = "VEHICLE"
 	EQUIPMENT = "EQUIPMENT"
 	OTHER = "OTHER"
 	PRODUCT_TYPE = (
 		(SEED, "SEED"),
 		(MANURE, "MANURE"),
-		(TRACTOR, "TRACTOR"),
+		(VEHICLE, "VEHICLE"),
 		(EQUIPMENT, "EQUIPMENT"),
 		(OTHER, "OTHER")
 	)
@@ -75,10 +75,11 @@ class Crop(models.Model):
 
 	SEASON_CHOICES = (
 		(RABI, "RABI"),
-		(KHARIF, KHARIF)
+		(KHARIF, "KHARIF")
 	)
 	crop_type = models.CharField(max_length = 120, choices = CROP_CHOICES)
 	season = models.CharField(max_length = 120, choices = SEASON_CHOICES)
+	name = models.CharField(max_length=32, null=False, blank=False, default="Kisaan Mitra")
 	created_at = models.DateTimeField(auto_now=False, auto_now_add=True)
 	updated_at = models.DateTimeField(auto_now=True, auto_now_add=False)
 
