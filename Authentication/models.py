@@ -5,6 +5,9 @@ from django.dispatch import receiver
 
 # Create your models here.
 class UserDetail(models.Model):
+	class Meta:
+		verbose_name="UserDetail"
+		verbose_name_plural="UserDetails"
 	ADMIN = "ADMIN"
 	RETAILER = "RETAILER"
 	FARMER = "FARMER"
