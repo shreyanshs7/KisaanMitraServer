@@ -23,9 +23,11 @@ from Utilities.views import news_feed
 from Transaction.views import get_all_rent, rent, rent_release
 from Advisory.views import get_all_advices
 
+admin.site.site_header = "Kisaan Mitra Dashboard"
+
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('api/login/', login, name="login"),
+    path('api/login', login, name="login"),
     path('api/register', register, name = 'register'),
     path('api/register/merchant', register_merchant, name = 'register_merchant'),
     path('api/upload/product', upload_product, name = 'upload_product'),

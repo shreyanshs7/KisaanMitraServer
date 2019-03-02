@@ -18,7 +18,7 @@ from dateutil.parser import parse
 @csrf_exempt
 def rent(request):
     response = {}
-    token = request.META.get('token')
+    token = request.META.get('HTTP_TOKEN')
     user = get_user(token)
     data = json.loads(request.body)
     product_id = data['product_id']
@@ -49,7 +49,7 @@ def rent(request):
 @csrf_exempt
 @require_http_methods(['POST'])
 def rent_release(request):
-    token = request.META.get('token')
+    token = request.META.get('HTTP_TOKEN')
     user = get_user(token)
     data = json.loads(request.body)
     rent_id = data['rent_id']
@@ -65,7 +65,7 @@ def rent_release(request):
 @token_required
 @csrf_exempt
 def get_all_rent(request):
-    token = request.META.get('token')
+    token = request.META.get('HTTP_TOKEN')
     user = get_user(token)
     user_detail_obj = get_model_json(UserDetail, user = user)
     assert_found(user_detail_obj, "No user detail object found")

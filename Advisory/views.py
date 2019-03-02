@@ -47,7 +47,7 @@ def get_advices_for_user(request):
     response = {}
     try:
         scheme = request.is_secure() and "https" or "http"
-        token = request.META.get('token')
+        token = request.META.get('HTTP_TOKEN')
         user = get_user(token)
         user = user.userdetail
         temp_crops = FarmerCrop.objects.filter(user=user)

@@ -10,7 +10,8 @@ from Helpers.serializers import get_model_json
 def token_required(func):
     @wraps(func)
     def decorator(request, *args, **kwargs):
-        token = request.META.get("token", None)
+        print(request.META)
+        token = request.META.get("HTTP_TOKEN", None)
         assert_found(token, "Access token not found")
         return func(request, *args, **kwargs)
     return decorator
