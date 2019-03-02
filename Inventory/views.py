@@ -6,9 +6,13 @@ from Authentication.models import Merchant
 from Helpers.utils import assert_found
 from Inventory.models import Product
 from Helpers.serializers import get_model_json
-
+from django.views.decorators.http import require_http_methods
+from django.views.decorators.csrf import csrf_exempt
 # Create your views here.
+
 @token_required
+@require_http_methods(['POST'])
+@csrf_exempt
 def upload_product(request):
     data = json.loads(request.body)
     token = request.META.get('token')

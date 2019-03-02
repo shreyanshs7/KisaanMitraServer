@@ -3,11 +3,17 @@ import requests
 import json
 from django.conf import settings
 from Helpers.methods import respond
+from django.views.decorators.http import require_http_methods
+from django.views.decorators.csrf import csrf_exempt
+from Helpers.tokens import token_required
 
 # Create your views here.
+@token_required
+@require_http_methods(['POST'])
+@csrf_exempt
 def news_feed(request):
-    data = json.loads(request.body)
-    query = data['query']
+    token = request.META.get("token")
+    query = request.GET.get('query')
     url = "https://newsapi.org/v2/everything"
     querystring = { "q":query,"sources":"the-hindu","apiKey": settings.NEWS_API_KEY }
     response = requests.request("GET", url, params=querystring)

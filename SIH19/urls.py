@@ -19,13 +19,15 @@ from django.conf import settings
 from django.conf.urls.static import static
 from Authentication.views import login, register, register_merchant
 from Inventory.views import upload_product
+from Utilities.views import news_feed
 
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('api/login/', login, name="login"),
     path('api/register', register, name = 'register'),
     path('api/register/merchant', register_merchant, name = 'register_merchant'),
-    path('api/upload/product', upload_product, name = 'upload_product')
+    path('api/upload/product', upload_product, name = 'upload_product'),
+    path('api/news', news_feed, name = 'news_feed')
 ]
 if settings.DEBUG:
     urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
