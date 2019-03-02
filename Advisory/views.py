@@ -14,13 +14,16 @@ from Advisory.models import AdviceCategory
 def get_all_advices(request):
     response = {}
     try:
+        scheme = request.is_secure() and "https" or "http"
         advices_list = []
         temp_advices = Advice.objects.all()
         for temp_advice in temp_advices:
             advice = {}
+            advice['id'] = temp_advice.pk
             advice['title'] = temp_advice.title
             advice['description'] = temp_advice.description
             advice['author'] = str(temp_advice.user)
+            advice['image_url'] = scheme + '://' + request.META['HTTP_HOST'] + '/media/' +str(temp_advice.image)
             categories = []
             temp_categories = AdviceCategory.objects.filter(advice=temp_advice)
             for temp_category in temp_categories:
@@ -56,9 +59,11 @@ def get_advices_for_user(request):
         advices_list = []
         for advice in advices:
             advice = {}
+            advice['id'] = temp_advice.pk
             advice['title'] = temp_advice.title
             advice['description'] = temp_advice.description
             advice['author'] = str(temp_advice.user)
+            advice['image_url'] = scheme + '://' + request.META['HTTP_HOST'] + '/media/' +str(temp_advice.image)
             categories = []
             temp_categories = AdviceCategory.objects.filter(advice=temp_advice)
             for temp_category in temp_categories:

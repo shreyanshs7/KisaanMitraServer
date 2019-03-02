@@ -10,6 +10,7 @@ class Advice(models.Model):
     title = models.CharField(null=False, blank=False, max_length=64)
     description = FroalaField()
     active = models.BooleanField(default=True)
+    image = models.ImageField(upload_to='static/uploads/advice_covers/', null=True, blank=True)
     created_at = models.DateTimeField(auto_now=False, auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True, auto_now_add=False)
     def __str__(self):
