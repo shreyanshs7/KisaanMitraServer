@@ -6,8 +6,10 @@ from django.views.decorators.csrf import csrf_exempt
 from  .models import Advice, AdviceCategory
 from Helpers.methods import respond
 from Authentication.models import UserDetail
-from Inventory.models import FarmerCrop
+from Inventory.models import FarmerCrop, Crop
 from Advisory.models import AdviceCategory
+from django.shortcuts import render, redirect
+from django.core.paginator import Paginator
 
 # Create your views here.
 
@@ -80,3 +82,81 @@ def get_advices_for_user(request):
         response['success'] = False
         response['message'] = "It's not you, it's us. Please try again, we deserve a chance"
     return respond(response)
+
+def home(request):
+    return render(request, 'home.html')
+
+def dashboard(request):
+    temp_advices = Advice.objects.filter(user=request.user.userdetail)
+    length = len(temp_advices)
+    paginator = Paginator(temp_advices, 4)
+    advices = []
+    for i in paginator.page_range:
+        data = iter(paginator.get_page(i))
+        advices.append(data)
+
+    context = {}
+    context['advices'] = advices
+    context['length'] = length
+    return render(request, 'dashboard.html', context=context)
+
+def create(request):
+    if request.method == 'POST':
+        title = request.POST['title']
+        description = request.POST['description']
+        cover = request.FILES['cover']
+        advice = Advice(title=title, description = description, user=request.user.userdetail, image=cover)
+        advice.save()
+        crops = Crop.objects.all()
+        for crop in crops:
+            try:
+                if request.POST['crop_'+str(crop.pk)] == 'on':
+                    print(crop.name)
+                    advice_category = AdviceCategory(advice=advice, crop = crop)
+                    advice_category.save()
+            except:
+                print("This crop is not checked")
+        return redirect('/advisory/dashboard')
+    else:
+        crops = Crop.objects.all()
+        context = {}
+        context['crops'] = crops
+        return render(request, 'create.html', context=context)
+
+def edit(request, id):
+    if request.method == 'POST':
+        title = request.POST['title']
+        description = request.POST['description']
+        cover = request.FILES['cover']
+        advice = Advice.objects.get(pk=id)
+        advice.title = title
+        advice.description = description
+        advice.user = request.user.userdetail
+        advice.image = cover
+        advice.save()
+        crops = Crop.objects.all()
+        for crop in crops:
+            try:
+                if request.POST['crop_'+str(crop.pk)] == 'on':
+                    print(crop.name)
+                    if not AdviceCategory.objects.filter(advice=advice, crop = crop).exists():
+                        advice_category = AdviceCategory(advice=advice, crop = crop)
+                        advice_category.save()
+            except:
+                if AdviceCategory.objects.filter(advice=advice, crop = crop).exists():
+                    AdviceCategory.objects.get(advice=advice, crop = crop).delete()
+                print("This crop is not checked")
+        return redirect('/advisory/dashboard')
+    else:
+        advice = Advice.objects.get(pk=id)
+        final_crops = []
+        related_crops = AdviceCategory.objects.filter(advice=advice)
+        for related_crop in related_crops:
+            final_crops.append(related_crop)
+        context = {}
+        crops = Crop.objects.all()
+        context['title'] = advice.title
+        context['description'] = advice.description
+        context['related_crops'] = final_crops
+        context['crops'] = crops
+        return render(request, 'edit.html', context=context)

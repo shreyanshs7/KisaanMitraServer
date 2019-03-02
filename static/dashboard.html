@@ -1,0 +1,44 @@
+{% extends 'templates/layout.html' %}
+{% block title %} Advisor Dashboard{%endblock title %}
+{% block content %}
+<section class="hero">
+  <div class="hero-body">
+    <div class="container">
+      <h1 class="title">Hello {{ user.username }}</h1>
+      <h2 class="subtitle">
+        You have been doing great job. Keep motivating. Keep advising.
+      </h2>
+    </div>
+  </div>
+</section>
+<div class="container">
+  {% for advice_ in advices %}
+  <div class="columns">
+      {% for advice in advice_ %}
+        <div class="column is-3">
+            <div class="card">
+              <div class="card-image">
+                <figure class="image is-4by3">
+                  <img
+                    src="/media/{{ advice.image }}"
+                    alt="Placeholder image"
+                  />
+                </figure>
+              </div>
+              <div class="card-content has-text-centered">
+                <p class="title is-4">{{ advice.title }}</p>
+                <p>{{ advice.updated_at }}</p>
+              </div>
+      
+              <footer class="card-footer">
+                <a href="/advisory/edit/{{ advice.pk }}" class="card-footer-item">Edit/View</a>
+              </footer>
+            </div>
+          </div>
+      {% endfor %}
+  </div>
+  {% endfor %}
+</div>
+<br />
+<a href="/advisory/create" id="fab" class="button is-primary">Add an advice</a>
+{% endblock content %}
