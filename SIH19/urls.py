@@ -18,7 +18,7 @@ from django.urls import path
 from django.conf import settings
 from django.conf.urls.static import static
 from Authentication.views import login, register, register_merchant
-from Inventory.views import upload_product, get_all_products, update_product, update_crop, get_all_crops, get_crops_by_user, delete_crop_user, farmer_dashboard
+from Inventory.views import upload_product, get_all_products, update_product, update_crop, get_all_crops, get_crops_by_user, delete_crop_user, farmer_dashboard, rent_signup, rent_confirm_signup, retailer_dashboard, retailer_dashboard_add
 from Utilities.views import news_feed
 from Advisory.views import get_all_advices, home, dashboard, create, edit, web_login, web_register, is_email_available, logout_view
 from django.conf.urls import url
@@ -52,6 +52,10 @@ urlpatterns = [
     path('api/crop/user', get_crops_by_user, name = 'crop_by_user'),
     path('api/crop/delete', delete_crop_user, name = 'delete_crop'),
     path('dashboard', farmer_dashboard, name='farmer_dashboard'),
+    path('rent', rent_signup, name='farmer_rent_signup'),
+    path('rent/confirm', rent_confirm_signup, name='farmer_rent_confirm_signup'),
+    path('rent/dashboard', retailer_dashboard, name='retailer_dashboard'),
+    path('rent/add', retailer_dashboard_add, name='retailer_dashboard_add'),
     path('logout', logout_view, name='logout_view'),
     path('', home, name = 'home'),
 ]

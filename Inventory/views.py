@@ -1,4 +1,4 @@
-from django.shortcuts import render
+from django.shortcuts import render, redirect
 from Helpers.tokens import token_required, get_user
 import json
 from Helpers.methods import get_or_none, respond
@@ -9,6 +9,7 @@ from Helpers.serializers import get_model_json
 from django.views.decorators.http import require_http_methods
 from django.views.decorators.csrf import csrf_exempt
 from django.core.paginator import Paginator
+from django.contrib.auth.decorators import login_required
 # Create your views here.
 
 @token_required
@@ -46,6 +47,7 @@ def get_all_products(request):
     # merchant_obj = get_or_none(Merchant, user = user_detail_obj)
     # assert_found(merchant_obj, "No merchant object found")
 
+    scheme = request.is_secure() and "https" or "http"
     all_products_obj = Product.objects.all()
     product_list = []
     for obj in all_products_obj:
@@ -62,6 +64,7 @@ def get_all_products(request):
         temp['sell_type'] = obj.sell_type
         temp['quantity'] = obj.quantity
         temp['period'] = obj.period
+        temp['product_image'] = scheme + '://' + request.META['HTTP_HOST'] + '/media/' + str(obj.image)
         temp['quantity_type'] = obj.quantity_type
         product_list.append(temp)
     response = {}
@@ -194,5 +197,58 @@ def farmer_dashboard(request):
     context['products'] = products
     return render(request,'farmerdashboard.html', context=context)
     
-def rent(request):
-    return render(request, 'rent.html')
+@login_required
+def rent_signup(request):
+    user = request.user 
+    if user.userdetail.user_type == 'RETAILER':
+        return redirect('/rent/dashboard')
+    else:
+        return render(request, 'rent.html')
+
+@login_required
+def rent_confirm_signup(request):
+    user = request.user 
+    if user.userdetail.user_type != 'RETAILER':
+        user = request.user 
+        user = user.userdetail
+        user.user_type = 'RETAILER'
+        user.save()
+        temp_merchant = Merchant(user=user, name=user.user.first_name)
+        temp_merchant.save()
+        # print(user.userdetail.user_type == 'RETAILER')
+    return redirect('/rent/dashboard')
+
+@login_required
+def retailer_dashboard(request):
+    temp_merchant = Merchant.objects.get(user=request.user.userdetail)
+    temp_products = Product.objects.filter(merchant=temp_merchant)
+    paginator = Paginator(temp_products, 3)
+    products = []
+    for i in paginator.page_range:
+        data = iter(paginator.get_page(i))
+        products.append(data)
+    context = {}
+    context['products'] = products
+    return render(request, 'retailerdashboard.html', context=context)
+
+@login_required
+def retailer_dashboard_add(request):
+    if request.method == "POST":
+        user = request.user
+        user = user.userdetail
+        name = request.POST['name']
+        product_type = request.POST['product_type']
+        sell_price = request.POST['sell_price']
+        rent_price = request.POST['rent_price']
+        sell_type = request.POST['sell_type']
+        quantity = request.POST['quantity']
+        period = request.POST['period_type']
+        quantity_type = request.POST['quantity_type']
+        image = request.FILES['image']
+        temp_merchant = get_or_none(Merchant, user=user)
+        assert_found(temp_merchant, "no merchant object found")
+        temp_product = Product(merchant=temp_merchant, name=name, product_type=product_type, sell_price=sell_price, rent_price=rent_price, sell_type=sell_type, quantity=quantity, period=period, quantity_type=quantity_type, image=image)
+        temp_product.save()        
+        return redirect('/rent/dashboard')
+    else:
+        return render(request, 'retailer_dashboard_add.html')

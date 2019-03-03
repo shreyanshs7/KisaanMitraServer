@@ -1,0 +1,43 @@
+{% extends 'templates/layout.html' %}
+{% block title %} Merchant Signup {% endblock title%}
+{% block content %}
+<div class="hero-body">
+  <div class="container has-text-centered">
+    <div class="columns is-vcentered">
+      <div class="column is-5">
+        <figure class="image is-4by3">
+          <img src="/static/images/merchant.svg" alt="Experts" />
+        </figure>
+      </div>
+      <div class="column is-6 is-offset-1">
+        <div class="card">
+          <div
+            class="tabs is-centered"
+            style="margin-bottom: 0px;">
+            <ul style="
+                padding-top: 20px;
+                padding-right: 20px;
+                padding-bottom: 20px;
+                padding-left: 20px;"
+            >
+              <li class="is-active">
+                <a>Merchant Signup</a>
+              </li>
+            </ul>
+          </div>
+          <div class="card-content">
+            <form method="POST">
+                {% csrf_token %}
+              Are you sure want to signup as a retailer
+              <br><br>
+              <a class="button is-primary" href="/rent/confirm">Confirm</a>
+              &nbsp; &nbsp;
+              <button class="button">No</button>
+            </form>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+{% endblock content %}

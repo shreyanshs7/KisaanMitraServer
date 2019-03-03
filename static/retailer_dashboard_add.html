@@ -1,0 +1,173 @@
+{% extends 'templates/layout.html' %} {% block title %} Add Item{%endblock title %} {% block content %}
+<div class="hero is-fullheight">
+  <div class="hero-body has -text-centred">
+    <div class="container">
+      <form method="POST" enctype="multipart/form-data">
+        {% csrf_token %}
+        <div class="field is-horizontal">
+          <div class="field-label is-normal">
+            <label class="label">Title</label>
+          </div>
+          <div class="field-body">
+            <div class="field">
+              <div class="control">
+                <input
+                  class="input"
+                  type="text"
+                  placeholder="Enter Name"
+                  name="name"
+                />
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="field is-horizontal">
+            <div class="field-label is-normal">
+                <label class="label">Product Type</label>
+            </div>
+            <div class="field-body">
+                    <div class="select">
+                        <select name="product_type">
+                            <option value="SEED">Seed</option>
+                            <option value="MANURE">Manure</option>
+                            <option value="VEHICLE">Vehicle</option>
+                            <option value="EQUIPMENTS">Equipments</option>
+                            <option valur="OTHERS">Others</option>
+                        </select>
+                    </div>
+            </div>
+        </div>
+
+        <div class="field is-horizontal">
+            <div class="field-label is-normal">
+                <label class="label">Sell Type</label>
+            </div>
+            <div class="field-body">
+                    <div class="select">
+                        <select name="sell_type">
+                            <option value="BUY">Buy</option>
+                            <option value="RENT">Rent</option>
+                        </select>
+                    </div>
+            </div>
+        </div>
+
+        <div class="field is-horizontal">
+            <div class="field-label is-normal">
+                <label class="label">Sell Type</label>
+            </div>
+            <div class="field-body">
+                    <div class="select">
+                        <select name="period_type">
+                            <option value="LESS_THAN_ONE_YEAR">LESS_THAN_ONE_YEAR</option>
+                            <option value="ONE_TO_FIVE_YEAR">ONE_TO_FIVE_YEAR</option>
+                            <option value="GREATER_THAN_FIVE">GREATER_THAN_FIVE</option>
+                        </select>
+                    </div>
+            </div>
+        </div>
+
+        <div class="field is-horizontal">
+            <div class="field-label is-normal">
+                <label class="label">Sell Type</label>
+            </div>
+            <div class="field-body">
+                    <div class="select">
+                        <select name="quantity_type">
+                            <option value="PCS">PCS</option>
+                            <option value="KG">KG</option>
+                            <option value="LTR">LTR</option>
+                            <option value="OTHER">OTHER</option>
+                        </select>
+                    </div>
+            </div>
+        </div>
+
+        <div class="field is-horizontal">
+            <div class="field-label is-normal">
+                <label class="label">Selling Price</label>
+            </div>
+            <div class="field-body">
+                <div class="field">
+                <div class="control">
+                    <input
+                    class="input"
+                    type="text"
+                    placeholder="Sell Price"
+                    name="sell_price"
+                    />
+                </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="field is-horizontal">
+            <div class="field-label is-normal">
+                <label class="label">Renting Price</label>
+            </div>
+            <div class="field-body">
+                <div class="field">
+                <div class="control">
+                    <input
+                    class="input"
+                    type="text"
+                    placeholder="Rent Price"
+                    name="rent_price"
+                    />
+                </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="field is-horizontal">
+            <div class="field-label is-normal">
+                <label class="label">Quantity</label>
+            </div>
+            <div class="field-body">
+                <div class="field">
+                    <div class="control">
+                        <input
+                        class="input"
+                        type="text"
+                        placeholder="Quantity"
+                        name="quantity"
+                        />
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="field is-horizontal">
+            <div class="field-label is-normal">
+                <label class="label">Advice Cover</label>
+            </div>
+            <div class="field-body">
+                <div class="file">
+                <label class="file-label">
+                    <input class="file-input" type="file" name="image" />
+                    <span class="file-cta">
+                    <span class="file-icon">
+                        <i class="fas fa-upload"></i>
+                    </span>
+                    <span class="file-label">
+                        Choose a file…
+                    </span>
+                    </span>
+                </label>
+                </div>
+            </div>
+        </div>
+        
+        <div class="has-text-centered">
+          <button class="button is-primary">Submit</button>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>
+<script>
+  $(function() {
+    $("textarea").froalaEditor();
+  });
+</script>
+{% endblock content %}
