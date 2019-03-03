@@ -29,6 +29,8 @@ def rent(request):
     print(duration_end)
     duration_start = parse(duration_start)
     duration_end = parse(duration_end)
+    # if duration_end is None and duration_start is None:
+    #     print("SOmething")
     product_obj = get_or_none(Product, id = product_id)
     assert_found(product_obj, "No product object found")
     if product_obj.quantity < quantity:

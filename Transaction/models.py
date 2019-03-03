@@ -41,8 +41,8 @@ class Rent(models.Model):
 	price = models.FloatField()
 	quantity = models.FloatField()
 	rent_completed = models.BooleanField(default=False)
-	duration_start = models.DateTimeField()
-	duration_end = models.DateTimeField()
+	duration_start = models.DateTimeField(null=True, blank=True)
+	duration_end = models.DateTimeField(null=True, blank=True)
 	created_at = models.DateTimeField(auto_now=False, auto_now_add=True)
 	updated_at = models.DateTimeField(auto_now=True, auto_now_add=False)
 

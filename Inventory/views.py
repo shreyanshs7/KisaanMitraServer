@@ -10,6 +10,7 @@ from django.views.decorators.http import require_http_methods
 from django.views.decorators.csrf import csrf_exempt
 from django.core.paginator import Paginator
 from django.contrib.auth.decorators import login_required
+from Transaction.models import Rent
 # Create your views here.
 
 @token_required
@@ -253,5 +254,18 @@ def retailer_dashboard_add(request):
     else:
         return render(request, 'retailer_dashboard_add.html')
 
+@login_required
 def retailer_dashboard_transactions(request):
-    return render(request, 'transactions.html')
+    user = request.user
+    user = user.userdetail
+    temp_merchant = Merchant.objects.get(user=user)
+    temp_products = Product.objects.filter(merchant=temp_merchant)
+    rents = []
+    for temp_product in temp_products:
+        temp_rents = Rent.objects.filter(product=temp_product)
+        print(temp_rents)
+        for temp_rent in temp_rents:
+            rents.append(temp_rent)
+    context = {}
+    context['rents'] = rents
+    return render(request, 'transactions.html', context=context)

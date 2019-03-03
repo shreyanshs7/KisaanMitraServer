@@ -3,7 +3,7 @@
 <section class="hero has-text-centered">
   <div class="hero-body">
     <div class="container">
-      <h1 class="title">Hero {{ request.user.username }}</h1>
+      <h1 class="title">Hello, {{ request.user.username }}</h1>
       <h2 class="subtitle">
         Manage your previous requests
       </h2>
@@ -16,61 +16,64 @@
           <thead>
             <tr>
               <th><abbr title="Position">S. No</abbr></th>
-              <th>Team</th>
-              <th><abbr title="Played">Pld</abbr></th>
-              <th><abbr title="Won">W</abbr></th>
-              <th><abbr title="Drawn">D</abbr></th>
-              <th><abbr title="Lost">L</abbr></th>
-              <th><abbr title="Goals for">GF</abbr></th>
-              <th><abbr title="Goals against">GA</abbr></th>
-              <th><abbr title="Goal difference">GD</abbr></th>
-              <th><abbr title="Points">Pts</abbr></th>
+              <th>Product</th>
+              <th><abbr title="User">User</abbr></th>
+              <th><abbr title="Pricec">Price</abbr></th>
+              <th><abbr title="Quantity">Quantity</abbr></th>
+              <th><abbr title="Status">Status</abbr></th>
+              <th><abbr title="Duration Start">Start</abbr></th>
+              <th><abbr title="Duration End">End</abbr></th>
               <th>Approve or decline requests</th>
             </tr>
           </thead>
           <tfoot>
             <tr>
               <th><abbr title="Position">S. No.</abbr></th>
-              <th>Team</th>
-              <th><abbr title="Played">Pld</abbr></th>
-              <th><abbr title="Won">W</abbr></th>
-              <th><abbr title="Drawn">D</abbr></th>
-              <th><abbr title="Lost">L</abbr></th>
-              <th><abbr title="Goals for">GF</abbr></th>
-              <th><abbr title="Goals against">GA</abbr></th>
-              <th><abbr title="Goal difference">GD</abbr></th>
-              <th><abbr title="Points">Pts</abbr></th>
+              <th>Product</th>
+              <th><abbr title="User">User</abbr></th>
+              <th><abbr title="Pricec">Price</abbr></th>
+              <th><abbr title="Quantity">Quantity</abbr></th>
+              <th><abbr title="Status">Status</abbr></th>
+              <th><abbr title="Duration Start">Start</abbr></th>
+              <th><abbr title="Duration End">End</abbr></th>
               <th>Approve or decline requests</th>
             </tr>
           </tfoot>
           <tbody>
+              {% for rent in rents %}
             <tr>
-              <th>1</th>
+              <th>{{ forloop.counter }}</th>
               <td>
-                <a
-                  href="https://en.wikipedia.org/wiki/Leicester_City_F.C."
-                  title="Leicester City F.C."
-                  >Leicester City</a
-                >
-                <strong>(C)</strong>
+                <strong>{{ rent.product }}</strong>
               </td>
-              <td>38</td>
-              <td>23</td>
-              <td>12</td>
-              <td>3</td>
-              <td>68</td>
-              <td>36</td>
-              <td>+32</td>
-              <td>81</td>
+              <td>{{ rent.user }}</td>
+              <td>{{ rent.price }}</td>
+              <td>{{ rent.quantity }}</td>
+              <td>{{ rent.rent_completed }}</td>
+              <td>{{ rent.duration_start }}</td>
+              <td>{{ rent.duration_end }}</td>
               <td>
-                <a class="button is-primary">Approve</a> &nbsp;
-                <a class="button is-danger">Un-approve</a>
+                  {% if rent.rent_completed == true %}
+                    <a onclick="approve({{ rent.id }})" class="button is-primary">Approve</a> &nbsp;
+                    <a class="button is-danger">Un-approve</a>
+                    {% else %}
+                    <a class="button is-primary">Approved</a> &nbsp;
+                    {% endif %}
               </td>
             </tr>
+            {% endfor %}
           </tbody>
         </table>
       </div>
     </div>
   </div>
 </section>
+<script>
+    function approve(id){
+        let url = '/api/merchant/request/accept?rent_id=' + id
+        $.get(url,function(data){
+            console.log(data);
+        });
+    }
+</script>
 {% endblock content %}
