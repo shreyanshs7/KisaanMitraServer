@@ -89,11 +89,9 @@ def get_all_rent(request):
     response['rent_list'] = all_rent_list
     return respond(response)
 
-@token_required
 @require_http_methods(['GET'])
 def get_merchant_rent_request(request):
-    token = request.META.get('HTTP_TOKEN')
-    user = get_user(user)
+    user = request.user
     user_detail_obj = user.userdetail
     merchant_obj = get_or_none(Merchant, user = user_detail_obj)
     assert_found(merchant_obj, "No merchant object found")
@@ -125,11 +123,9 @@ def get_merchant_rent_request(request):
     response['request_list'] = product_list
     return respond(response)
 
-@token_required
 @require_http_methods(['GET'])
 def accept_rent_request(request):
-    token = request.META.get('HTTP_TOKEN')
-    user = get_user(token)
+    user = request.user
     rent_id = request.GET.get('rent_id')
     rent_obj = get_or_none(Rent, id = rent_id)
     rent_obj.rent_completed = True
