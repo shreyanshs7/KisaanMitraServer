@@ -252,3 +252,6 @@ def retailer_dashboard_add(request):
         return redirect('/rent/dashboard')
     else:
         return render(request, 'retailer_dashboard_add.html')
+
+def retailer_dashboard_transactions(request):
+    return render(request, 'transactions.html')

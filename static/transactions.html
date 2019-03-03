@@ -1,0 +1,76 @@
+{% extends 'templates/layout.html' %} {% block title %} Rental Requests
+{%endblock title %} {% block content %}
+<section class="hero has-text-centered">
+  <div class="hero-body">
+    <div class="container">
+      <h1 class="title">Hero {{ request.user.username }}</h1>
+      <h2 class="subtitle">
+        Manage your previous requests
+      </h2>
+    </div>
+  </div>
+  <div class="hero-body">
+    <div class="container has-text-centered">
+      <div class="columns is-vcentered">
+        <table class="table">
+          <thead>
+            <tr>
+              <th><abbr title="Position">S. No</abbr></th>
+              <th>Team</th>
+              <th><abbr title="Played">Pld</abbr></th>
+              <th><abbr title="Won">W</abbr></th>
+              <th><abbr title="Drawn">D</abbr></th>
+              <th><abbr title="Lost">L</abbr></th>
+              <th><abbr title="Goals for">GF</abbr></th>
+              <th><abbr title="Goals against">GA</abbr></th>
+              <th><abbr title="Goal difference">GD</abbr></th>
+              <th><abbr title="Points">Pts</abbr></th>
+              <th>Approve or decline requests</th>
+            </tr>
+          </thead>
+          <tfoot>
+            <tr>
+              <th><abbr title="Position">S. No.</abbr></th>
+              <th>Team</th>
+              <th><abbr title="Played">Pld</abbr></th>
+              <th><abbr title="Won">W</abbr></th>
+              <th><abbr title="Drawn">D</abbr></th>
+              <th><abbr title="Lost">L</abbr></th>
+              <th><abbr title="Goals for">GF</abbr></th>
+              <th><abbr title="Goals against">GA</abbr></th>
+              <th><abbr title="Goal difference">GD</abbr></th>
+              <th><abbr title="Points">Pts</abbr></th>
+              <th>Approve or decline requests</th>
+            </tr>
+          </tfoot>
+          <tbody>
+            <tr>
+              <th>1</th>
+              <td>
+                <a
+                  href="https://en.wikipedia.org/wiki/Leicester_City_F.C."
+                  title="Leicester City F.C."
+                  >Leicester City</a
+                >
+                <strong>(C)</strong>
+              </td>
+              <td>38</td>
+              <td>23</td>
+              <td>12</td>
+              <td>3</td>
+              <td>68</td>
+              <td>36</td>
+              <td>+32</td>
+              <td>81</td>
+              <td>
+                <a class="button is-primary">Approve</a> &nbsp;
+                <a class="button is-danger">Un-approve</a>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+</section>
+{% endblock content %}
