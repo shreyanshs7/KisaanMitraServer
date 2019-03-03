@@ -20,7 +20,7 @@ from django.conf.urls.static import static
 from Authentication.views import login, register, register_merchant
 from Inventory.views import upload_product, get_all_products, update_product, update_crop, get_all_crops, get_crops_by_user, delete_crop_user
 from Utilities.views import news_feed
-from Transaction.views import get_all_rent, rent, rent_release
+from Transaction.views import get_all_rent, rent, rent_release, get_merchant_rent_request, accept_rent_request
 from Advisory.views import get_all_advices
 
 admin.site.site_header = "Kisaan Mitra Dashboard"
@@ -41,7 +41,9 @@ urlpatterns = [
     path('api/crop/create', update_crop, name = 'create_crop'),
     path('api/crop/list', get_all_crops, name = 'all_crop'),
     path('api/crop/user', get_crops_by_user, name = 'crop_by_user'),
-    path('api/crop/delete', delete_crop_user, name = 'delete_crop')
+    path('api/crop/delete', delete_crop_user, name = 'delete_crop'),
+    path('api/merchant/request/list', get_merchant_rent_request, name = 'rent_request_list'),
+    path('api/merchant/request/accept', accept_rent_request, name = 'accept_request')
 ]
 if settings.DEBUG:
     urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
