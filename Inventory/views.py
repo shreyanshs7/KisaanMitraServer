@@ -34,4 +34,6 @@ def upload_product(request):
     response['details'] = get_model_json(product_obj)
     return respond(response)
 
+def farmer_dashboard(request):
+    return render(request,'farmerdashboard.html')
     
