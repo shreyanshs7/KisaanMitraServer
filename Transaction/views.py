@@ -25,6 +25,8 @@ def rent(request):
     quantity = data['quantity']
     duration_start = data['start']
     duration_end = data['end']
+    print(duration_start)
+    print(duration_end)
     duration_start = parse(duration_start)
     duration_end = parse(duration_end)
     product_obj = get_or_none(Product, id = product_id)
@@ -42,7 +44,7 @@ def rent(request):
 
     response['success'] = True
     response['message'] = "Product taken for rent successfully"
-    response['details'] = get_model_json(rent_obj)
+    # response['details'] = get_model_json(rent_obj)
     return respond(response)
 
 @token_required
@@ -67,19 +69,19 @@ def rent_release(request):
 def get_all_rent(request):
     token = request.META.get('HTTP_TOKEN')
     user = get_user(token)
-    user_detail_obj = get_model_json(UserDetail, user = user)
+    user_detail_obj = get_or_none(UserDetail, user = user)
     assert_found(user_detail_obj, "No user detail object found")
     all_rent_obj = Rent.objects.filter(user = user_detail_obj)
     all_rent_list = []
     for obj in all_rent_obj:
         temp =  {}
-        temp['product_name'] = obj.product.product.name
+        temp['product_name'] = obj.product.name
         temp['rent_id'] = obj.id
         temp['price'] = obj.price
         temp['quantity'] = obj.quantity
         temp['status'] = obj.rent_completed
-        temp['duration_start'] = obj.duration_start
-        temp['duration_end'] = obj.duration_end
+        temp['duration_start'] = str(obj.duration_start)
+        temp['duration_end'] = str(obj.duration_end)
         all_rent_list.append(temp)
     response = {}
     response['success'] = True

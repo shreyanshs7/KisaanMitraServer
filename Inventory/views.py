@@ -113,6 +113,7 @@ def update_crop(request):
     except FarmerCrop.DoesNotExist:
         farmer_crop_obj = FarmerCrop.objects.create(user = user_detail_obj, crop = crop_obj)    
         farmer_crop_obj.save()
+        farmer_crop = FarmerCrop.objects.filter(user = user_detail_obj)
         response['success'] = True
         response['message'] = "Crop added successfully"
         response['detail'] = get_model_json(farmer_crop_obj)
@@ -142,19 +143,24 @@ def get_all_crops(request):
 @csrf_exempt
 @require_http_methods(['GET'])
 def get_crops_by_user(request):
+    response = {}
     token = request.META.get("HTTP_TOKEN")
-    user = get_user(user)
+    user = get_user(token)
     user_detail_obj = user.userdetail
     farmer_crop_obj = get_or_none(FarmerCrop, user = user_detail_obj)
-    assert_found(farmer_crop_obj, "No farmer crop object found")
     farmer_crop_list = []
+    if farmer_crop_obj is None:
+        response['success'] = False
+        response['message'] = "No crop selected"
+        response['farmer_crop_list'] = farmer_crop_list
+        return respond(response)
+    assert_found(farmer_crop_obj, "No farmer crop object found")
     for obj in farmer_crop_obj:
         temp = {}
         temp['crop_name'] = obj.crop.name
         temp['crop_type'] = obj.crop.crop_type
         temp['season'] = obj.crop.season
         farmer_crop_list.append(temp)
-    response = {}
     response['success'] = True
     response['farmer_crop_list'] = farmer_crop_list
     return respond(response)
@@ -165,8 +171,10 @@ def get_crops_by_user(request):
 def delete_crop_user(request):
     token = request.META.get('HTTP_TOKEN')
     user = get_user(token)
+    crop_id = request.GET.get('crop_id')
+    crop_obj = get_or_none(Crop, id = crop_id)
     user_detail_obj = user.userdetail
-    farmer_crop_obj = get_or_none(FarmerCrop, user = user_detail_obj)
+    farmer_crop_obj = FarmerCrop.objects.get(user = user_detail_obj, crop = crop_obj )
     assert_found(farmer_crop_obj, "No Farmer crop object found")
     farmer_crop_obj.delete()
     response = {}

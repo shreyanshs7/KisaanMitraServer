@@ -40,7 +40,7 @@ urlpatterns = [
     path('api/advices/all', get_all_advices, name = 'advices'),
     path('api/crop/create', update_crop, name = 'create_crop'),
     path('api/crop/list', get_all_crops, name = 'all_crop'),
-    path('api/crop/user', get_all_rent, name = 'crop_by_user'),
+    path('api/crop/user', get_crops_by_user, name = 'crop_by_user'),
     path('api/crop/delete', delete_crop_user, name = 'delete_crop')
 ]
 if settings.DEBUG:
