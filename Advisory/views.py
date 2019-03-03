@@ -10,6 +10,8 @@ from Inventory.models import FarmerCrop, Crop
 from Advisory.models import AdviceCategory
 from django.shortcuts import render, redirect
 from django.core.paginator import Paginator
+from django.contrib.auth import authenticate
+from django.contrib.auth.models import User
 
 # Create your views here.
 
@@ -160,3 +162,22 @@ def edit(request, id):
         context['related_crops'] = final_crops
         context['crops'] = crops
         return render(request, 'edit.html', context=context)
+
+def web_login(request):
+    if request.method == 'POST':
+        email = request.POST['email']
+        password = request.POST['password']
+        user = User.objects.get(email=email)
+        user = authenticate(username=user.username, password=password)
+    else:
+        return render(request, 'login.html')
+
+def web_register(request):
+    if request.method == 'POST':
+        # email = request.POST['email']
+        # password = request.POST['password']
+        # user = User.objects.get(email=email)
+        # user = authenticate(username=user.username, password=password)
+        print("Register")
+    else:
+        return render(request, 'register.html')

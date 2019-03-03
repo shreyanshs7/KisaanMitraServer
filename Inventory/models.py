@@ -90,7 +90,7 @@ class Crop(models.Model):
 	updated_at = models.DateTimeField(auto_now=True, auto_now_add=False)
 
 	def __str__(self):
-	 return str(self.crop_type)
+	 return str(self.name)
 
 class FarmerCrop(models.Model):
 	class Meta:

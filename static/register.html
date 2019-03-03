@@ -1,0 +1,72 @@
+{% extends 'templates/layout.html' %}
+{% block title %} Login {% endblock title%}
+{% block content %}
+<div class="hero-body">
+  <div class="container has-text-centered">
+    <div class="columns is-vcentered">
+      <div class="column is-5">
+        <figure class="image is-4by3">
+          <img src="/static/images/login.svg" alt="Experts" />
+        </figure>
+      </div>
+      <div class="column is-6 is-offset-1">
+        <div class="card">
+          <div
+            class="tabs is-centered"
+            style="margin-bottom: 0px;">
+            <ul style="
+                padding-top: 20px;
+                padding-right: 20px;
+                padding-bottom: 20px;
+                padding-left: 20px;"
+            >
+              <li>
+                <a href="/login">Login</a>
+              </li>
+              <li class="is-active">
+                <a>Register</a>
+              </li>
+            </ul>
+          </div>
+          <div class="card-content">
+            <form method="POST">
+                {% csrf_token %}
+              <div class="field">
+                <p class="control has-icons-left has-icons-right">
+                  <input
+                    class="input"
+                    type="email"
+                    placeholder="email"
+                    name="email"
+                  />
+                  <span class="icon is-small is-left">
+                    <i class="fas fa-user"></i>
+                  </span>
+                </p>
+              </div>
+              <div class="field">
+                <p class="control has-icons-left">
+                  <input
+                    class="input"
+                    type="password"
+                    placeholder="Password"
+                    name="password"
+                  />
+                  <span class="icon is-small is-left">
+                    <i class="fas fa-lock"></i>
+                  </span>
+                </p>
+              </div>
+              <button type="submit" class="button is-primary is-fullwidth">Login</button>
+              <br>
+              <div class="is-centered">
+                <a href="/signup">Already have an Account?</a> &nbsp; 
+              </div>
+            </form>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+{% endblock content %}
