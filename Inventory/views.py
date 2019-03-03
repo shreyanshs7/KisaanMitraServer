@@ -97,14 +97,13 @@ def update_product(request):
     return respond(response)
 
 @token_required
-@require_http_methods(['POST'])
+@require_http_methods(['GET'])
 @csrf_exempt
 def update_crop(request):
     response = {}
     token = request.META.get('HTTP_TOKEN')
     user = get_user(token)
-    data = json.loads(request.body)
-    crop_id = data['crop_id']
+    crop_id = request.GET.get('crop_id')
     crop_obj = get_or_none(Crop, id = crop_id )
     assert_found(crop_obj, "No crop object found")
     user_detail_obj = get_or_none(UserDetail, user = user)
@@ -148,7 +147,7 @@ def get_crops_by_user(request):
     token = request.META.get("HTTP_TOKEN")
     user = get_user(token)
     user_detail_obj = user.userdetail
-    farmer_crop_obj = get_or_none(FarmerCrop, user = user_detail_obj)
+    farmer_crop_obj = FarmerCrop.objects.filter(user = user_detail_obj)
     farmer_crop_list = []
     if farmer_crop_obj is None:
         response['success'] = False
