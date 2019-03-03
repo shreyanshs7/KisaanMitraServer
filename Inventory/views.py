@@ -8,6 +8,7 @@ from Inventory.models import Product, FarmerCrop, Crop
 from Helpers.serializers import get_model_json
 from django.views.decorators.http import require_http_methods
 from django.views.decorators.csrf import csrf_exempt
+from django.core.paginator import Paginator
 # Create your views here.
 
 @token_required
@@ -173,6 +174,18 @@ def delete_crop_user(request):
     response['success'] = True
     response['message'] = "Crop deleted successfully"
     return respond(response)
+
 def farmer_dashboard(request):
-    return render(request,'farmerdashboard.html')
+    temp_products = Product.objects.all()
+    length = len(temp_products)
+    paginator = Paginator(temp_products, 3)
+    products = []
+    for i in paginator.page_range:
+        data = iter(paginator.get_page(i))
+        products.append(data)
+    context = {}
+    context['products'] = products
+    return render(request,'farmerdashboard.html', context=context)
     
+def rent(request):
+    return render(request, 'rent.html')

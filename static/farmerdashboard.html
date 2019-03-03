@@ -4,47 +4,61 @@
   <div class="container has-text-centered">
     <div class="columns">
       <div class="column is-4">
-        <div class="field">
-          <label class="label">Types</label>
-          <label class="checkbox">
-            <input type="checkbox" />
-            Seed
-          </label>
-          <br />
-          <label class="checkbox">
-            <input type="checkbox" />
-            Manure
-          </label>
-          <br />
-          <label class="checkbox">
-            <input type="checkbox" />
-            Vehicles
-          </label>
-          <br />
-          <label class="checkbox">
-            <input type="checkbox" />
-            Equipments
-          </label>
-          <br />
-          <label class="checkbox">
-            <input type="checkbox" />
-            Others
-          </label>
-        </div>
-        <div class="select">
-          <select>
-            <option>Below 1 year</option>
-            <option>Between 1-5 years</option>
-            <option>More than 5 years</option>
-          </select>
-        </div>
-        <div class="control">
-          <button class="button is-link">Apply</button>
-        </div>
-        <br />
-        <div class="control">
-          <button class="button is-link">Rent Item</button>
-        </div>
+        <div class="card">
+          <div class="tabs is-centered" style="margin-bottom: 0px;">
+            <ul
+              style="
+                    padding-top: 20px;
+                    padding-right: 20px;
+                    padding-bottom: 20px;
+                    padding-left: 20px;"
+            >
+              <li class="is-active">
+                <a>Buy</a>
+              </li>
+              <li>
+                <a>Rent</a>
+              </li>
+            </ul>
+          </div>
+          <div class="card-content">
+            <label class="checkbox">
+              <input type="checkbox">
+              Seed
+            </label>
+            <label class="checkbox">
+              <input type="checkbox">
+              Manure
+            </label>
+            <label class="checkbox">
+              <input type="checkbox">
+              Vehicles
+            </label>
+            <label class="checkbox">
+              <input type="checkbox">
+              Equipments
+            </label>
+            <label class="checkbox">
+              <input type="checkbox">
+              Others
+            </label>
+            <br><br>
+            Age <br>
+            <div class="select">
+                <select>
+                  <option value="LESS_THAN_ONE_YEAR">Below 1 year</option>
+                  <option>Between 1-5 years</option>
+                  <option>More than 5 years</option>
+                </select>
+              </div>
+          </div>
+          <footer class="card-footer">
+              <a href="#" class="card-footer-item">Apply</a>
+          </footer>
+          <footer class="card-footer">
+              <a href="/rent" class="card-footer-item">Rent your items</a>
+          </footer>
+        </div>        
       </div>
       <div class="column is-8">
         <div class="columns">
@@ -60,116 +74,32 @@
             </div>
           </div>
         </div>
+        {% for product_ in products %}
         <div class="columns">
-          <div class="column">
-            <div class="card">
-              <div class="card-image">
-                <figure class="image is-4by3">
-                  <img
-                    src="https://bulma.io/images/placeholders/1280x960.png"
-                    alt="Placeholder image"
-                  />
-                </figure>
-              </div>
-              <div class="card-content">
-                <div class="media-content">
-                  <p class="title is-4">Title</p>
+          {% for product in product_ %}
+            <div class="column">
+              <div class="card">
+                <div class="card-image">
+                  <figure class="image is-4by3">
+                    <img
+                      src="/media/{{product.image}}"
+                      alt="{{product.name}}"
+                    />
+                  </figure>
                 </div>
-              </div>
-            </div>
-          </div>
-          <div class="column">
-            <div class="card">
-              <div class="card-image">
-                <figure class="image is-4by3">
-                  <img
-                    src="https://bulma.io/images/placeholders/1280x960.png"
-                    alt="Placeholder image"
-                  />
-                </figure>
-              </div>
-              <div class="card-content">
-                <div class="media-content">
-                  <p class="title is-4">Title</p>
-                </div>
-
-                <div class="content"></div>
-              </div>
-            </div>
-          </div>
-          <div class="column">
-            <div class="card">
-              <div class="card-image">
-                <figure class="image is-4by3">
-                  <img
-                    src="https://bulma.io/images/placeholders/1280x960.png"
-                    alt="Placeholder image"
-                  />
-                </figure>
-              </div>
-              <div class="card-content">
-                <div class="media-content">
-                  <p class="title is-4">Title</p>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-        <div class="columns">
-                <div class="column">
-                  <div class="card">
-                    <div class="card-image">
-                      <figure class="image is-4by3">
-                        <img
-                          src="https://bulma.io/images/placeholders/1280x960.png"
-                          alt="Placeholder image"
-                        />
-                      </figure>
-                    </div>
-                    <div class="card-content">
-                      <div class="media-content">
-                        <p class="title is-4">Title</p>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-                <div class="column">
-                  <div class="card">
-                    <div class="card-image">
-                      <figure class="image is-4by3">
-                        <img
-                          src="https://bulma.io/images/placeholders/1280x960.png"
-                          alt="Placeholder image"
-                        />
-                      </figure>
-                    </div>
-                    <div class="card-content">
-                      <div class="media-content">
-                        <p class="title is-4">Title</p>
-                      </div>
-      
-                      <div class="content"></div>
-                    </div>
-                  </div>
-                </div>
-                <div class="column">
-                  <div class="card">
-                    <div class="card-image">
-                      <figure class="image is-4by3">
-                        <img
-                          src="https://bulma.io/images/placeholders/1280x960.png"
-                          alt="Placeholder image"
-                        />
-                      </figure>
-                    </div>
-                    <div class="card-content">
-                      <div class="media-content">
-                        <p class="title is-4">Title</p>
-                      </div>
-                    </div>
+                <div class="card-content">
+                  <div class="media-content">
+                    <p class="title is-4">{{ product.name }} for {{ product.sell_type }} </p>
+                    <p>Buying Price {{ product.sell_price }} | Renting Price {{ product.rent_price }}</p>
+                    <p>Category - <strong>{{ product.product_type }}</strong></p>
+                    <p>Offered by -{{ product.merchant.user }}</p>
                   </div>
                 </div>
               </div>
+            </div>
+          {% endfor %}
+          </div>
+        {% endfor %}
       </div>
     </div>
   </div>

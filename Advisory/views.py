@@ -9,7 +9,7 @@ from Inventory.models import FarmerCrop, Crop
 from Advisory.models import AdviceCategory
 from django.shortcuts import render, redirect
 from django.core.paginator import Paginator
-from django.contrib.auth import authenticate
+from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.models import User
 from Inventory.models import FarmerCrop
 from Advisory.models import AdviceCategory, Advice
@@ -91,6 +91,8 @@ def home(request):
     return render(request, 'home.html')
 
 def dashboard(request):
+    if not request.user.is_authenticated:
+        return redirect ('/login')
     temp_advices = Advice.objects.filter(user=request.user.userdetail)
     length = len(temp_advices)
     paginator = Paginator(temp_advices, 4)
@@ -105,6 +107,8 @@ def dashboard(request):
     return render(request, 'dashboard.html', context=context)
 
 def create(request):
+    if not request.user.is_authenticated:
+        return redirect ('/login')
     if request.method == 'POST':
         title = request.POST['title']
         description = request.POST['description']
@@ -128,6 +132,8 @@ def create(request):
         return render(request, 'create.html', context=context)
 
 def edit(request, id):
+    if not request.user.is_authenticated:
+        return redirect ('/login')
     if request.method == 'POST':
         title = request.POST['title']
         description = request.POST['description']
@@ -166,6 +172,8 @@ def edit(request, id):
         return render(request, 'edit.html', context=context)
 
 def web_login(request):
+    if request.user.is_authenticated:
+        return redirect ('/dashboard')
     try:
         if request.method == 'POST':
             email = request.POST['email']
@@ -173,6 +181,7 @@ def web_login(request):
             user = User.objects.get(email=email)
             user = authenticate(username=user.username, password=password)
             if user is not None:
+                login(request, user)
                 return redirect('/dashboard')
             else:
                 context = {}
@@ -187,6 +196,8 @@ def web_login(request):
         return render(request, 'login.html', context=context)
 
 def web_register(request):
+    if request.user.is_authenticated:
+        return redirect ('/dashboard')
     try:
         if request.method == 'POST':
             email = request.POST['email']
@@ -195,23 +206,29 @@ def web_register(request):
             last_name = request.POST['last_name']
             username = request.POST['username']
             password = request.POST['password']
-            user = User.objects.get(email=email)
             contact_no = request.POST['contact_no']
             user_type = request.POST['user_type']
             user = User.objects.create_user(username, email, password)
+            user.save()
+            user.email = email
+            user = user.userdetail
+            user.first_name = first_name
+            user.last_name = last_name
+            user.contact_no = contact_no
+            user.user_type = user_type
+            user.save()
+            user = User.objects.get(email=email)
             user = authenticate(username=user.username, password=password)
             if user is not None:
+                login(request, user)
                 return redirect('/dashboard')
-            else:
-                context = {}
-                context['message'] = "Sorry check your credentials and try again"
-                return render(request, 'register.html', context=context)
+            return redirect('/login')
         else:
             return render(request, 'register.html')
     except Exception as e:
         print(e)
         context = {}
-        context['message'] = "Sorry check your credentials and try again"
+        context['message'] = "It's not you it's us, please give us another chance"
         return render(request, 'register.html', context=context)
 
 def is_email_available(request):
@@ -229,3 +246,7 @@ def is_email_available(request):
         response['success'] = True
         response['message'] = "Account Available"
     return respond(response)
+
+def logout_view(request):
+    logout(request)
+    return redirect('/login')
