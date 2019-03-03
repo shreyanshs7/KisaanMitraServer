@@ -173,6 +173,9 @@ def delete_crop_user(request):
     response['success'] = True
     response['message'] = "Crop deleted successfully"
     return respond(response)
+
 def farmer_dashboard(request):
     return render(request,'farmerdashboard.html')
     
+def product_dashboard(request):
+    return render(request,'product.html')
