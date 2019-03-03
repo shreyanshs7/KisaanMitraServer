@@ -23,7 +23,7 @@ from Utilities.views import news_feed
 from Advisory.views import get_all_advices, home, dashboard, create, edit, web_login, web_register, is_email_available, logout_view
 from django.conf.urls import url
 from django.views import static as stat
-from Transaction.views import get_all_rent, rent, rent_release
+from Transaction.views import get_all_rent, rent, rent_release, get_merchant_rent_request, accept_rent_request
 
 admin.site.site_header = "Kisaan Mitra Dashboard"
 
@@ -59,6 +59,8 @@ urlpatterns = [
     path('rent/transactions', retailer_dashboard_transactions, name='retailer_dashboard_transactions'),
     path('logout', logout_view, name='logout_view'),
     path('', home, name = 'home'),
+    path('api/merchant/request/list', get_merchant_rent_request, name = 'rent_request_list'),
+    path('api/merchant/request/accept', accept_rent_request, name = 'accept_request')
 ]
 if settings.DEBUG:
     urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
