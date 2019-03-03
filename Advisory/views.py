@@ -166,20 +166,66 @@ def edit(request, id):
         return render(request, 'edit.html', context=context)
 
 def web_login(request):
-    if request.method == 'POST':
-        email = request.POST['email']
-        password = request.POST['password']
-        user = User.objects.get(email=email)
-        user = authenticate(username=user.username, password=password)
-    else:
-        return render(request, 'login.html')
+    try:
+        if request.method == 'POST':
+            email = request.POST['email']
+            password = request.POST['password']
+            user = User.objects.get(email=email)
+            user = authenticate(username=user.username, password=password)
+            if user is not None:
+                return redirect('/dashboard')
+            else:
+                context = {}
+                context['message'] = "Sorry check your credentials and try again"
+                return render(request, 'login.html', context=context)
+        else:
+            return render(request, 'login.html')
+    except Exception as e:
+        print(e)
+        context = {}
+        context['message'] = "Sorry check your credentials and try again"
+        return render(request, 'login.html', context=context)
 
 def web_register(request):
-    if request.method == 'POST':
-        # email = request.POST['email']
-        # password = request.POST['password']
-        # user = User.objects.get(email=email)
-        # user = authenticate(username=user.username, password=password)
-        print("Register")
-    else:
-        return render(request, 'register.html')
+    try:
+        if request.method == 'POST':
+            email = request.POST['email']
+            password = request.POST['password']
+            first_name = request.POST['first_name']
+            last_name = request.POST['last_name']
+            username = request.POST['username']
+            password = request.POST['password']
+            user = User.objects.get(email=email)
+            contact_no = request.POST['contact_no']
+            user_type = request.POST['user_type']
+            user = User.objects.create_user(username, email, password)
+            user = authenticate(username=user.username, password=password)
+            if user is not None:
+                return redirect('/dashboard')
+            else:
+                context = {}
+                context['message'] = "Sorry check your credentials and try again"
+                return render(request, 'register.html', context=context)
+        else:
+            return render(request, 'register.html')
+    except Exception as e:
+        print(e)
+        context = {}
+        context['message'] = "Sorry check your credentials and try again"
+        return render(request, 'register.html', context=context)
+
+def is_email_available(request):
+    try:
+        email = request.GET['email']
+        response = {}
+        user = User.objects.get(email=email)
+        if user is not None:
+            response['success'] = False
+            response['message'] = "User already exists"
+        else:
+            response['success'] = True
+            response['message'] = "Account Available"
+    except:
+        response['success'] = True
+        response['message'] = "Account Available"
+    return respond(response)

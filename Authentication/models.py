@@ -12,10 +12,12 @@ class UserDetail(models.Model):
 	RETAILER = "RETAILER"
 	FARMER = "FARMER"
 	OTHER = "OTHER"
+	ADVISOR = "ADVISOR"
 	USER_CHOICES = (
 		(ADMIN, "ADMIN"),
 		(RETAILER, "RETAILER"),
 		(FARMER, "FARMER"),
+		(ADVISOR, "ADVISOR"),
 		(OTHER, "OTHER")
 	)
 	user = models.OneToOneField(User, on_delete=models.CASCADE)

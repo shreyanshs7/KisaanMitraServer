@@ -59,6 +59,12 @@
               </div>
               <button type="submit" class="button is-primary is-fullwidth">Login</button>
               <br>
+              {% if message is not None %}
+              <div class="notification is-warning">
+                <button class="delete"></button>
+                {{ message }}
+              </div>
+              {% endif %}
               <div class="is-centered">
                 <a href="/signup">Don't have an Account?</a> &nbsp; 
                 <a href="/forget">Forgot Password?</a>
