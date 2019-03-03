@@ -4,7 +4,7 @@ from Authentication.models import Merchant, UserDetail
 # Create your models here.
 
 # def product_image_path(instance, filename):
-# 	return ("product_%s/%s")%(str(instance.id),str(filename))
+# 	return ("/static/upload/product_%s/%s")%(str(instance.id),str(filename))
 
 class Product(models.Model):
 	class Meta:
@@ -56,7 +56,7 @@ class Product(models.Model):
 	quantity = models.FloatField()
 	period = models.CharField(max_length = 120, choices = PERIOD_CHOICES, default = LESS_THAN_ONE_YEAR)
 	quantity_type = models.CharField(max_length = 5, choices = QUANTITY_TYPE)
-	image = models.FileField(upload_to="static/products/")
+	image = models.ImageField(upload_to="static/uploads/products/")
 	created_at = models.DateTimeField(auto_now=False, auto_now_add=True)
 	updated_at = models.DateTimeField(auto_now=True, auto_now_add=False)
 

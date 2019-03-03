@@ -134,3 +134,5 @@ NEWS_API_KEY = "958793e719c64a39bf1a119f8283a563"
 MEDIA_URL = '/media/'
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 STATIC_ROOT = '/static/'
+
+APPEND_SLASH = False 

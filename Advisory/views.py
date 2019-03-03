@@ -3,7 +3,6 @@ from django.http import JsonResponse
 from Helpers.tokens import token_required, get_user
 from django.views.decorators.http import require_http_methods
 from django.views.decorators.csrf import csrf_exempt
-from  .models import Advice, AdviceCategory
 from Helpers.methods import respond
 from Authentication.models import UserDetail
 from Inventory.models import FarmerCrop, Crop
@@ -12,6 +11,8 @@ from django.shortcuts import render, redirect
 from django.core.paginator import Paginator
 from django.contrib.auth import authenticate
 from django.contrib.auth.models import User
+from Inventory.models import FarmerCrop
+from Advisory.models import AdviceCategory, Advice
 
 # Create your views here.
 
@@ -51,7 +52,8 @@ def get_all_advices(request):
 def get_advices_for_user(request):
     response = {}
     try:
-        token = request.META.get('token')
+        scheme = request.is_secure() and "https" or "http"
+        token = request.META.get('HTTP_TOKEN')
         user = get_user(token)
         user = user.userdetail
         temp_crops = FarmerCrop.objects.filter(user=user)
@@ -61,7 +63,7 @@ def get_advices_for_user(request):
             for temp_advice in temp_advices:
                 advices_set.add(temp_advice.advice)
         advices_list = []
-        for advice in advices:
+        for advice in advices_set:
             advice = {}
             advice['id'] = temp_advice.pk
             advice['title'] = temp_advice.title

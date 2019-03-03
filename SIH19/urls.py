@@ -18,20 +18,32 @@ from django.urls import path
 from django.conf import settings
 from django.conf.urls.static import static
 from Authentication.views import login, register, register_merchant
-from Inventory.views import upload_product
+from Inventory.views import upload_product, get_all_products, update_product, update_crop, get_all_crops, get_crops_by_user, delete_crop_user
 from Utilities.views import news_feed
+<<<<<<< HEAD
 from Advisory.views import get_all_advices, home, dashboard, create, edit, web_login, web_register
 from django.conf.urls import url
 from django.views import static as stat
+=======
+from Transaction.views import get_all_rent, rent, rent_release
+from Advisory.views import get_all_advices
+>>>>>>> 6e92dc77c77f2768f8418348358e4c23e08ac1d4
+
+admin.site.site_header = "Kisaan Mitra Dashboard"
 
 urlpatterns = [
     url(r'^static/(?P<path>.*)$', stat.serve, {'document_root': settings.STATIC_ROOT}),
     path('admin/', admin.site.urls),
-    path('api/login/', login, name="login"),
+    path('api/login', login, name="login"),
     path('api/register', register, name = 'register'),
     path('api/register/merchant', register_merchant, name = 'register_merchant'),
     path('api/upload/product', upload_product, name = 'upload_product'),
     path('api/news', news_feed, name = 'news_feed'),
+    path('api/rent/create', rent, name = 'rent_create'),
+    path('api/rent/release', rent_release, name = 'rent_release'),
+    path('api/rent/list', get_all_rent, name = 'all_rent_list'),
+    path('api/product/list', get_all_products, name = 'all_products'),
+    path('api/product/update', update_product, name = 'update_product'),
     path('api/advices/all', get_all_advices, name = 'advices'),
     path('advisory/dashboard', dashboard, name='advisory_dashboard'),
     path('advisory/create', create, name='advisory_dashboard_create'),
@@ -39,6 +51,10 @@ urlpatterns = [
     path('login', web_login, name="web_login"),
     path('signup', web_register, name="web_register"),
     path('', home, name = 'home'),
+    path('api/crop/create', update_crop, name = 'create_crop'),
+    path('api/crop/list', get_all_crops, name = 'all_crop'),
+    path('api/crop/user', get_all_rent, name = 'crop_by_user'),
+    path('api/crop/delete', delete_crop_user, name = 'delete_crop')
 ]
 if settings.DEBUG:
     urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

@@ -9,10 +9,10 @@ from Helpers.tokens import token_required
 
 # Create your views here.
 @token_required
-@require_http_methods(['POST'])
+@require_http_methods(['GET'])
 @csrf_exempt
 def news_feed(request):
-    token = request.META.get("token")
+    token = request.META.get("HTTP_TOKEN")
     query = request.GET.get('query')
     url = "https://newsapi.org/v2/everything"
     querystring = { "q":query,"sources":"the-hindu","apiKey": settings.NEWS_API_KEY }
