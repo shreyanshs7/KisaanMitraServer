@@ -10,7 +10,7 @@ html5lib==1.0.1
 idna==2.8
 newsapi==0.1.1
 pyfcm==1.4.5
-PyJWT==1.7.1
+PyJWT==2.4.0
 pytz==2018.9
 requests==2.21.0
 requests-toolbelt==0.9.1
